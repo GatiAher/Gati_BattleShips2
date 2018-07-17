@@ -132,6 +132,26 @@ function createMyBoard() {
         }
         $('#myBoard').append($('<br/>'));
     }
+
+    // logs what guesses sent
+    $('#myBoard').append($('<h4/>', {
+        text: 'Guesses: -',
+        id: 'guess_log',
+        left: '50%',
+    }));
+
+    // logs what answers recieved
+    $('#myBoard').append($('<h4/>', {
+        text: 'Answers for my guesses: -',
+        id: 'my_answer_log',
+        left: '50%',
+    }));
+
+    $('#myBoard').append($('<h4/>', {
+        text: 'Answers for opponent\'s guesses: -',
+        id: 'oppo_answer_log',
+        left: '50%',
+    }));
 }
 
 function placeShips() {
@@ -217,6 +237,8 @@ function addGuesses(guess) {
         $('#status').text('Waiting for other player...');
 
         guesses.sort(function(a, b) {return a-b});
+
+        $('#guess_log').text('Guesses: ' + guesses);
         socket.emit('guesses-ships', {
             guesses: guesses,
             ships: myShips,
@@ -231,6 +253,9 @@ function addGuesses(guess) {
 
 // update oppoBoard
 socket.on('your-answers', function(data) {
+
+    $('#my_answer_log').text('Answers for my guesses: ' + ' hits: ' + data.hits + ' misses: ' + data.misses);
+
     for(let i = 0; i < data.hits.length; i++) {
         let id = '#o_' + data.hits[i];
         // hits are brownish
@@ -248,6 +273,9 @@ socket.on('your-answers', function(data) {
 
 // update myBoard
 socket.on('opponent-answers', function(data) {
+
+    $('#oppo_answer_log').text('Answers for opponent\'s guesses: ' + ' hits: ' + data.hits + ' misses: ' + data.misses);
+
     for(let i = 0; i < data.hits.length; i++) {
         let id = '#m_' + data.hits[i];
         // hits are brownish
