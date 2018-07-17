@@ -1,5 +1,5 @@
 {
-  "name": "gati_battleships_2",
+  "name": "gati_battleships_non_mpc",
   "version": "1.0.0",
   "description": "Simple multi-player BattleShip Game built for Gati's Intership with SAIL",
   "main": "server.js",
